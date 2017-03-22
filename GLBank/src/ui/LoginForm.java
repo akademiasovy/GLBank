@@ -152,6 +152,9 @@ public class LoginForm extends javax.swing.JFrame {
                 lblErrorMessage.setText("");
                 int id=connection.getEmployeeId(login);
                 connection.logEmployeeAccess(id);
+                MainForm mainForm = new MainForm(id);
+                this.setVisible(false);
+                mainForm.setVisible(true);
             }
             else {
                 lblErrorMessage.setText("Invalid username or password !");
