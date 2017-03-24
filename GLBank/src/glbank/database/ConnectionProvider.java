@@ -5,6 +5,7 @@
  */
 package glbank.database;
 
+import glbank.Client;
 import glbank.Employee;
 import java.sql.Connection;
 import java.util.Date;
@@ -12,7 +13,10 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -164,5 +168,33 @@ public class ConnectionProvider {
                 System.out.println("Error: "+ex.toString());
             }
         }
+    }
+    
+    public List<Client> getListOfAllClients(){
+        String query = "SELECT * FROM Clients "+
+                " INNER JOIN ClientDetails ON Clients.idc=ClientDetails.idc "+
+                " WHERE disable = 'F'"+
+                " ORDER BY lastname, firstname";
+        Connection conn=getConnection();
+        List<Client> list = new ArrayList<>();
+        if(conn!=null){
+            try(Statement statement = conn.createStatement()){
+                ResultSet rs = statement.executeQuery(query);
+                while(rs.next()){
+                    int idc=rs.getInt("Clients.idc");
+                    String firstname=rs.getString("firstname");
+                    String lastname=rs.getString("lastname");
+                    Date dob = rs.getDate("dob");
+                    Client client = new Client(idc, lastname, firstname,dob);
+                    list.add(client);
+                 
+                }
+                 conn.close();
+            }catch(SQLException ex){
+                 System.out.println("Error: "+ex.toString());   
+            }
+            
+        }
+        return list;
     }
 }

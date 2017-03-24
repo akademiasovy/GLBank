@@ -5,6 +5,8 @@
  */
 package glbank;
 
+import java.util.Date;
+
 /**
  *
  * @author client
@@ -17,11 +19,13 @@ public class Client {
     private String street;
     private int housenumber;
     private String postcode;
+    private String city;
     private String username;
     private boolean disable;
     private boolean blocked;
+    private Date dob;
 
-    public Client(int idc, String lastname, String firstname, String email, String street, int housenumber, String postcode, String username, boolean disable, boolean blocked) {
+    public Client(int idc, String lastname, String firstname, String email, String street, int housenumber, String postcode, String username, boolean disable, boolean blocked, Date dob, String city) {
         this.idc = idc;
         this.lastname = lastname;
         this.firstname = firstname;
@@ -32,6 +36,36 @@ public class Client {
         this.username = username;
         this.disable = disable;
         this.blocked = blocked;
+        this.dob = dob;
+    }
+
+    public Client(int idc, String lastname, String firstname, Date dob) {
+       this.idc=idc;
+       this.lastname=lastname;
+       this.firstname=firstname;
+       this.dob=dob;
+       this.street=this.username=this.postcode=null;
+       this.housenumber=0;
+       this.email=null;
+       this.disable=false;
+       this.blocked=false;
+       this.city=city;
+    }
+
+    public int getIdc() {
+        return idc;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public String getFirstname() {
+        return firstname;
+    }
+
+    public Date getDob() {
+        return dob;
     }
     
     

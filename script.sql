@@ -43,6 +43,7 @@ CREATE TABLE ClientDetails(idcd INTEGER AUTO_INCREMENT,
 					street VARCHAR(30) NOT NULL,
 					housenumber INTEGER NOT NULL,
 					postcode CHAR(5) NOT NULL,
+					city VARCHAR(30) NOT NULL,
 					dob DATE NOT NULL,
 					email VARCHAR(30),
 					PRIMARY KEY (idcd),
@@ -76,13 +77,13 @@ INSERT INTO LoginClient(idlc, idc, login , password) VALUES (3,3,'mizerova','miz
 INSERT INTO LoginClient(idlc, idc, login , password) VALUES (4,4,'barbas','barbas');	
 INSERT INTO LoginClient(idlc, idc, login , password) VALUES (5,5,'balazova','balazova');
 
-INSERT INTO ClientDetails (idcd,idc, street, housenumber, postcode, dob, email)
-VALUES (1,1,'Humenska',15,'04011','1984-04-15','kovac@zoznam.sk');
-INSERT INTO ClientDetails (idcd,idc, street, housenumber, postcode, dob, email)
-VALUES (2,2,'Krosnianska',41,'04022','1985-07-01','cupi@zoznam.sk');
-INSERT INTO ClientDetails (idcd,idc, street, housenumber, postcode, dob, email)
-VALUES (3,3,'Havanska',83,'04023','1995-08-30','mizerova@pobox.sk');
-INSERT INTO ClientDetails (idcd,idc, street, housenumber, postcode, dob, email)
-VALUES (4,4,'Dneperska',19,'04012','1989-10-25','barbas@gmail.com');
-INSERT INTO ClientDetails (idcd,idc, street, housenumber, postcode, dob, email)
-VALUES (5,5,'Levocska',4,'08001','1980-12-25','balazova@zoznam.sk');	
+INSERT INTO ClientDetails (idcd,idc, street, housenumber, postcode, city, dob, email)
+VALUES (1,1,'Humenska',15,'04011','Kosice','1984-04-15','kovac@zoznam.sk');
+INSERT INTO ClientDetails (idcd,idc, street, housenumber, postcode, city, dob, email)
+VALUES (2,2,'Krosnianska',41,'04022','Kosice','1985-07-01','cupi@zoznam.sk');
+INSERT INTO ClientDetails (idcd,idc, street, housenumber, postcode, city,dob, email)
+VALUES (3,3,'Havanska',83,'04023','Kosice','1995-08-30','mizerova@pobox.sk');
+INSERT INTO ClientDetails (idcd,idc, street, housenumber, postcode, city, dob, email)
+VALUES (4,4,'Dneperska',19,'04012','Kosice','1989-10-25','barbas@gmail.com');
+INSERT INTO ClientDetails (idcd,idc, street, housenumber, postcode, city, dob, email)
+VALUES (5,5,'Levocska',4,'08001','Presov','1980-12-25','balazova@zoznam.sk');	
