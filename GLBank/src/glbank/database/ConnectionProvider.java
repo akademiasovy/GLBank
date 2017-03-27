@@ -197,4 +197,94 @@ public class ConnectionProvider {
         }
         return list;
     }
+    
+    public boolean existUsername(String username){
+        String query="SELECT login FROM LoginClient WHERE login LIKE ?";
+        Connection conn = getConnection();
+        try ( PreparedStatement ps = conn.prepareStatement(query)){
+            ps.setString(1, username);
+            ResultSet rs = ps.executeQuery();
+            boolean ret = rs.next();
+            conn.close();
+            if(ret)
+                return true;
+            else 
+                return false;
+        }catch (SQLException ex){
+            System.out.println("Error: "+ex.toString()); 
+            
+        }
+        return false;
+    }
+    
+    public void insertNewClient(Client client, String password){
+        Connection conn = getConnection();
+        int idc=insertDataIntoCliensTable(client,conn);
+        if(idc>0){
+            client.setIdc(idc);
+            insertDataIntoLoginClientTable(client, password,conn);
+            insertDataIntoClientDetails(client,conn);
+        }
+    }
+
+    private int insertDataIntoCliensTable(Client client, Connection conn ) {
+        String query="INSERT INTO Clients(firstname, lastname) "+
+                " VALUES (?, ?)";
+        String querySelect = "SELECT max(idc) AS idc FROM Clients "+
+                " WHERE firstname LIKE ? AND lastname LIKE ?";
+        
+        try{
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setString(1, client.getFirstname());
+            ps.setString(2, client.getLastname());
+            ps.execute();
+            
+            // SELECT
+            ps=conn.prepareStatement(querySelect);
+            ps.setString(1, client.getFirstname());
+            ps.setString(2, client.getLastname());
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){
+                int idc=rs.getInt("idc");
+                return idc;
+            }
+        }catch(SQLException ex){
+             System.out.println("Error: "+ex.toString());
+        }
+        return 0;
+    }
+
+    private void insertDataIntoLoginClientTable(Client client, String password, Connection conn) {
+        String query = "INSERT INTO LoginClient (idc, login, password) "+
+                "VALUES (?,?,?)";
+        try{
+        PreparedStatement ps = conn.prepareStatement(query);
+        ps.setInt(1, client.getIdc());
+        ps.setString(2, client.getUsername());
+        ps.setString(3, password);
+        ps.execute();
+        }catch(SQLException ex){
+            System.out.println("Error: "+ex.toString());
+        }
+        
+    }
+
+    private void insertDataIntoClientDetails(Client client, Connection conn) {
+         String query = "INSERT INTO ClientDetails (idc, street, housenumber, postcode,dob, email, city) "+
+                "VALUES (?,?,?,?,?,?,?)";
+         try{
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setInt(1, client.getIdc());
+            ps.setString(2, client.getStreet());
+            ps.setInt(3, client.getHousenumber());
+            ps.setString(4, client.getPostcode());
+            ps.setString(5, new SimpleDateFormat("yyyy-MM-dd").format(client.getDob()));
+            ps.setString(6, client.getEmail());
+            ps.setString(7, client.getCity());
+            ps.execute();
+            
+         }catch(SQLException ex){
+             System.out.println("Error: "+ex.toString());
+         }
+    }
 }

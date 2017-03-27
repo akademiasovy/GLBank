@@ -49,7 +49,7 @@ public class Client {
        this.email=null;
        this.disable=false;
        this.blocked=false;
-       this.city=city;
+       this.city=city; 
     }
 
     public int getIdc() {
@@ -66,6 +66,34 @@ public class Client {
 
     public Date getDob() {
         return dob;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getStreet() {
+        return street;
+    }
+
+    public void setIdc(int idc) {
+        this.idc = idc;
+    }
+
+    public int getHousenumber() {
+        return housenumber;
+    }
+
+    public String getPostcode() {
+        return postcode;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public String getUsername() {
+        return username;
     }
     
     
