@@ -287,4 +287,24 @@ public class ConnectionProvider {
              System.out.println("Error: "+ex.toString());
          }
     }
+
+    public Client getClient(int idc){
+        String query = "SELECT * FROM Clients AS cl "+
+                " INNER JOIN ClientDetails AS cd ON cl.idc=cd.idc "+
+                " INNER JOIN LoginClient AS lc ON lc.idc=cl.idc "+
+                " WHERE cl.idc=?";
+        Connection conn=getConnection();
+        try{
+           PreparedStatement ps = conn.prepareStatement(query);
+           ps.setInt(1, idc);
+           ResultSet rs=ps.executeQuery();
+           if(rs.next()){
+               String firstname = rs.getString("firstname");
+               Client client = new Client(idc, firstname, TODO )
+           }
+        }catch(SQLException ex){
+            System.out.println("Error: "+ex.toString());
+        }
+        return null;
+    }
 }

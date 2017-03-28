@@ -16,6 +16,8 @@ import java.util.List;
  */
 public class MainForm extends javax.swing.JFrame {
     private int idemp;
+    private List<Client> list;
+            
     private ConnectionProvider conn;
     /**
      * Creates new form MainForm
@@ -30,6 +32,7 @@ public class MainForm extends javax.swing.JFrame {
     private void initForm(){
         printEmployeeName();
         showListOfClients();
+        initTabs();
     }
     
     private void printEmployeeName(){
@@ -56,9 +59,9 @@ public class MainForm extends javax.swing.JFrame {
         jSeparator2 = new javax.swing.JSeparator();
         lblClient = new javax.swing.JLabel();
         comboListOfAllClients = new javax.swing.JComboBox<>();
-        jTabbedPane1 = new javax.swing.JTabbedPane();
         jButton1 = new javax.swing.JButton();
         jSeparator4 = new javax.swing.JSeparator();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu3 = new javax.swing.JMenu();
         menuChangePassword = new javax.swing.JMenuItem();
@@ -78,6 +81,11 @@ public class MainForm extends javax.swing.JFrame {
         lblClient.setText("Select client:");
 
         comboListOfAllClients.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "choose:" }));
+        comboListOfAllClients.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboListOfAllClientsActionPerformed(evt);
+            }
+        });
 
         jButton1.setText("New client");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -118,6 +126,7 @@ public class MainForm extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 683, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createSequentialGroup()
@@ -134,10 +143,7 @@ public class MainForm extends javax.swing.JFrame {
                                 .addComponent(lblEmployeeName)))
                         .addGroup(layout.createSequentialGroup()
                             .addGap(44, 44, 44)
-                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(42, 42, 42)
-                            .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 669, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(27, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -154,12 +160,12 @@ public class MainForm extends javax.swing.JFrame {
                     .addComponent(lblClient)
                     .addComponent(comboListOfAllClients, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton1)
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -183,6 +189,20 @@ public class MainForm extends javax.swing.JFrame {
         newClientForm.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void comboListOfAllClientsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboListOfAllClientsActionPerformed
+        // TODO add your handling code here:
+        int index=comboListOfAllClients.getSelectedIndex();
+        jTabbedPane1.removeAll();
+        if(index>0){
+            
+            int idc = list.get(index-1).setIdc(idc);
+            
+            PanelInfo jPanelInfo = new PanelInfo(client);
+            jTabbedPane1.add("Information", jPanelInfo);
+            
+        }
+    }//GEN-LAST:event_comboListOfAllClientsActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> comboListOfAllClients;
     private javax.swing.JButton jButton1;
@@ -202,7 +222,7 @@ public class MainForm extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     private void showListOfClients() {
-        List<Client> list = new ConnectionProvider().getListOfAllClients();
+        list = new ConnectionProvider().getListOfAllClients();
         if(list!=null && list.size()>0){
             for(Client client : list){
                 String item=client.getLastname()+" "+client.getFirstname()+
@@ -210,5 +230,11 @@ public class MainForm extends javax.swing.JFrame {
                 comboListOfAllClients.addItem(item);
             }
         }
+    }
+
+    private void initTabs() {
+        
+       
+        
     }
 }
