@@ -300,8 +300,21 @@ public class ConnectionProvider {
            ResultSet rs=ps.executeQuery();
            if(rs.next()){
                String firstname = rs.getString("firstname");
-               Client client = new Client(idc, firstname, TODO )
-           }
+               String lastname = rs.getString("lastname");
+               String email = rs.getString("email");
+               String street = rs.getString("street");
+               String city = rs.getString("city");
+               String postcode = rs.getString("postcode");
+               String login = rs.getString("login");
+               Date dob = rs.getDate("dob");
+               int num = rs.getInt("housenumber");
+               boolean disable = rs.getString("disable").toUpperCase().charAt(0)=='T';
+               boolean blocked = rs.getString("blocked").toUpperCase().charAt(0)=='T';
+                           
+               Client client = new Client(idc, lastname, firstname, email, street, num, postcode, login, disable, blocked, dob,city );
+               return client;
+           }   
+           
         }catch(SQLException ex){
             System.out.println("Error: "+ex.toString());
         }

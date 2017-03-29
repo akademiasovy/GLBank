@@ -5,6 +5,7 @@
  */
 package glbank.database;
 
+import glbank.Client;
 import glbank.Employee;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -155,4 +156,36 @@ public class ConnectionProviderTest {
         
     }
     
+    /**
+     * Test of getEmployee method, of class ConnectionProvider.
+     */
+    @Test
+    public void testGetClient() {
+        System.out.println("getClient");
+        int id = 1;
+        ConnectionProvider instance = new ConnectionProvider();
+        
+        Client result = instance.getClient(id);
+        assertEquals("Dominik", result.getFirstname());
+        assertEquals("Kovac", result.getLastname());
+        assertEquals("kovac@zoznam.sk", result.getEmail());    
+    }
+    
+    /**
+     * Test of getEmployee method, of class ConnectionProvider.
+     */
+    @Test
+    public void testExistsUsername() {
+        System.out.println("existsUsername");
+        String username="kovac";
+        String username2="kra658bumham";
+        ConnectionProvider instance = new ConnectionProvider();
+        
+        boolean result = instance.existUsername(username);
+        assertTrue(result);
+       
+        result = instance.existUsername(username2);
+        assertFalse( result);
+        
+    }
 }

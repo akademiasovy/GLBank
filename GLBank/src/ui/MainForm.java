@@ -160,8 +160,8 @@ public class MainForm extends javax.swing.JFrame {
                     .addComponent(lblClient)
                     .addComponent(comboListOfAllClients, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton1)
@@ -195,8 +195,8 @@ public class MainForm extends javax.swing.JFrame {
         jTabbedPane1.removeAll();
         if(index>0){
             
-            int idc = list.get(index-1).setIdc(idc);
-            
+            int idc = list.get(index-1).getIdc();
+            Client client=new ConnectionProvider().getClient(idc);
             PanelInfo jPanelInfo = new PanelInfo(client);
             jTabbedPane1.add("Information", jPanelInfo);
             
