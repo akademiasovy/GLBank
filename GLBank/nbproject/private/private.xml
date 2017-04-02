@@ -3,14 +3,18 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/C:/GIT/GLBank/GLBank/src/glbank/Account.java</file>
             <file>file:/C:/GIT/GLBank/GLBank/src/ui/LoginForm.java</file>
             <file>file:/C:/GIT/GLBank/GLBank/src/ui/ChangePasswordForm.java</file>
+            <file>file:/C:/GIT/GLBank/GLBank/src/ui/panels/PanelCards.java</file>
             <file>file:/C:/GIT/GLBank/GLBank/src/glbank/database/ConnectionProvider.java</file>
+            <file>file:/C:/GIT/GLBank/GLBank/src/ui/panels/PanelInfo.java</file>
             <file>file:/C:/GIT/GLBank/GLBank/test/glbank/database/ConnectionProviderTest.java</file>
             <file>file:/C:/GIT/GLBank/GLBank/src/ui/NewClientForm.java</file>
+            <file>file:/C:/GIT/GLBank/GLBank/src/ui/panels/PanelAccounts.java</file>
             <file>file:/C:/GIT/GLBank/GLBank/src/ui/MainForm.java</file>
             <file>file:/C:/GIT/GLBank/GLBank/src/glbank/Client.java</file>
-            <file>file:/C:/GIT/GLBank/GLBank/src/ui/PanelInfo.java</file>
+            <file>file:/C:/GIT/GLBank/GLBank/src/ui/panels/PanelTransaction.java</file>
         </group>
     </open-files>
 </project-private>

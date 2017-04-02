@@ -5,6 +5,7 @@
  */
 package glbank.database;
 
+import glbank.Account;
 import glbank.Client;
 import glbank.Employee;
 import java.sql.Connection;
@@ -282,7 +283,7 @@ public class ConnectionProvider {
             ps.setString(6, client.getEmail());
             ps.setString(7, client.getCity());
             ps.execute();
-            
+            conn.close();
          }catch(SQLException ex){
              System.out.println("Error: "+ex.toString());
          }
@@ -312,6 +313,7 @@ public class ConnectionProvider {
                boolean blocked = rs.getString("blocked").toUpperCase().charAt(0)=='T';
                            
                Client client = new Client(idc, lastname, firstname, email, street, num, postcode, login, disable, blocked, dob,city );
+               conn.close();
                return client;
            }   
            
@@ -319,5 +321,59 @@ public class ConnectionProvider {
             System.out.println("Error: "+ex.toString());
         }
         return null;
+    }
+    
+    public List<Account> getAccounts(int idc){
+        String query = "SELECT * FROM Accounts WHERE idc=?";
+        Connection conn=getConnection();
+        try {
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setInt(1, idc);
+            ResultSet rs= ps.executeQuery();
+            List<Account> list = new ArrayList<>();
+            while(rs.next()){
+                Account account = new Account(rs.getLong("idacc"), idc, rs.getFloat("balance"));
+                list.add(account);
+            }
+            conn.close();
+            return list;
+        }catch(SQLException ex){
+            System.out.println("Error: "+ex.toString());
+        }
+        return null;
+    }
+    
+    public boolean existsAccount(long idacc){
+        String query="SELECT idacc FROM Accounts WHERE idc = ?";
+        try {
+           Connection conn = getConnection();
+           PreparedStatement ps = conn.prepareStatement(query);
+           ps.setLong(1, idacc);
+           ResultSet rs=ps.executeQuery();
+           if(rs.next()){
+               conn.close();
+               return true;
+           }  
+           conn.close();
+        }catch(SQLException ex){
+            System.out.println("Error: "+ex.toString());
+        }
+        
+        return false;
+    }
+
+    public void insertNewAccount(int idc, long proposalAccount) {
+        String query ="INSERT INTO Accounts VALUES(?,?,?)";
+        try{
+            Connection conn = getConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setLong(1, proposalAccount);
+            ps.setInt(2, idc);
+            ps.setFloat(3, 0);
+            ps.executeUpdate();
+            conn.close();
+        }catch(SQLException ex){
+            System.out.println("Error: "+ex.toString());
+        }
     }
 }

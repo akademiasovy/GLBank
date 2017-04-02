@@ -87,3 +87,17 @@ INSERT INTO ClientDetails (idcd,idc, street, housenumber, postcode, city, dob, e
 VALUES (4,4,'Dneperska',19,'04012','Kosice','1989-10-25','barbas@gmail.com');
 INSERT INTO ClientDetails (idcd,idc, street, housenumber, postcode, city, dob, email)
 VALUES (5,5,'Levocska',4,'08001','Presov','1980-12-25','balazova@zoznam.sk');	
+
+CREATE TABLE Accounts(idacc BIGINT UNIQUE,
+					idc INTEGER NOT NULL,
+					balance FLOAT (10,2),
+					PRIMARY KEY (idacc),
+					FOREIGN KEY (idc)
+					REFERENCES Clients(idc)
+					ON DELETE CASCADE
+					ON UPDATE RESTRICT);
+					
+INSERT INTO Accounts VALUES (4561232588,1,80.20);	
+INSERT INTO Accounts VALUES (9401953275,1,1.15);
+INSERT INTO Accounts VALUES (28161353,1,98555.33);		
+INSERT INTO Accounts VALUES (1111886952,2,3508.68);			

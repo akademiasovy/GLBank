@@ -5,10 +5,14 @@
  */
 package ui;
 
+import ui.panels.PanelInfo;
+import ui.panels.PanelAccounts;
+import ui.panels.PanelTransaction;
 import glbank.Client;
 import glbank.Employee;
 import glbank.database.ConnectionProvider;
 import java.util.List;
+import ui.panels.PanelCards;
 
 /**
  *
@@ -199,6 +203,12 @@ public class MainForm extends javax.swing.JFrame {
             Client client=new ConnectionProvider().getClient(idc);
             PanelInfo jPanelInfo = new PanelInfo(client);
             jTabbedPane1.add("Information", jPanelInfo);
+            PanelAccounts jPanelAccounts=new PanelAccounts(idc);
+            jTabbedPane1.add("Accounts", jPanelAccounts);
+            PanelTransaction jPanelTransaction=new PanelTransaction();
+            jTabbedPane1.add("Transactions", jPanelTransaction);
+            PanelCards jPanelCards = new PanelCards();
+            jTabbedPane1.add("Cards", jPanelCards);
             
         }
     }//GEN-LAST:event_comboListOfAllClientsActionPerformed
