@@ -100,4 +100,33 @@ CREATE TABLE Accounts(idacc BIGINT UNIQUE,
 INSERT INTO Accounts VALUES (4561232588,1,80.20);	
 INSERT INTO Accounts VALUES (9401953275,1,1.15);
 INSERT INTO Accounts VALUES (28161353,1,98555.33);		
-INSERT INTO Accounts VALUES (1111886952,2,3508.68);			
+INSERT INTO Accounts VALUES (1111886952,2,3508.68);	
+
+CREATE TABLE banktransaction (idbt INT AUTO_INCREMENT,
+							amount FLOAT(10,2) NOT NULL,
+							transdatetime datetime NOT NULL,
+							description VARCHAR(140) DEFAULT NULL,
+							idemp INT DEFAULT 0,
+							srcacc BIGINT NOT NULL,
+							destacc BIGINT NOT NULL,
+							srcbank INT NOT NULL,
+							destbank INT NOT NULL,
+							PRIMARY KEY(idbt),
+							FOREIGN KEY (idemp) REFERENCES Employees(idemp)
+							);
+	
+CREATE TABLE cashtransaction (idct INT AUTO_INCREMENT,
+							idemp INT NOT NULL,
+							amount FLOAT(10,2) DEFAULT 0,
+							idacc BIGINT NOT NULL,
+							cashdatetime datetime NOT NULL,
+							PRIMARY KEY (idct),
+							FOREIGN KEY (idemp) REFERENCES Employees(idemp),
+							FOREIGN KEY (idacc) REFERENCES Accounts(idacc)
+							ON UPDATE RESTRICT
+							);
+							
+							
+							
+							
+								

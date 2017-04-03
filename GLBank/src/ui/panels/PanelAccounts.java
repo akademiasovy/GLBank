@@ -9,6 +9,7 @@ import glbank.Account;
 import glbank.database.ConnectionProvider;
 import java.util.List;
 import java.util.Random;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -16,13 +17,16 @@ import java.util.Random;
  */
 public class PanelAccounts extends javax.swing.JPanel {
     private int idc;
+    private int idemp;
+    
     private List<Account> list;
     /**
      * Creates new form PanelAccounts
      */
-    public PanelAccounts(int idc) {
+    public PanelAccounts(int idc, int idemp) {
         initComponents();
         this.idc=idc;
+        this.idemp=idemp;
         initAccountList();
         
     }
@@ -40,9 +44,9 @@ public class PanelAccounts extends javax.swing.JPanel {
         jAccountList = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
         lblBalance = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        jtxtAddValue = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
-        jTextField2 = new javax.swing.JTextField();
+        jtxtSubValue = new javax.swing.JTextField();
         jButton2 = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         btnNewAccount = new javax.swing.JButton();
@@ -63,14 +67,19 @@ public class PanelAccounts extends javax.swing.JPanel {
         lblBalance.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         lblBalance.setText("1234.56");
 
-        jTextField1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jTextField1.setText("0");
+        jtxtAddValue.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jtxtAddValue.setText("0");
 
         jButton1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jButton1.setText("add +");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
-        jTextField2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jTextField2.setText("0");
+        jtxtSubValue.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jtxtSubValue.setText("0");
 
         jButton2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jButton2.setText("sub -");
@@ -111,10 +120,10 @@ public class PanelAccounts extends javax.swing.JPanel {
                                     .addGroup(layout.createSequentialGroup()
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                             .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 87, Short.MAX_VALUE)
-                                            .addComponent(jTextField1))
+                                            .addComponent(jtxtAddValue))
                                         .addGap(43, 43, 43)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(jTextField2, javax.swing.GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE)
+                                            .addComponent(jtxtSubValue, javax.swing.GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE)
                                             .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                                 .addGap(0, 141, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
@@ -134,8 +143,8 @@ public class PanelAccounts extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(lblBalance)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jtxtAddValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jtxtSubValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
@@ -165,6 +174,31 @@ public class PanelAccounts extends javax.swing.JPanel {
            conn.insertNewAccount(idc,proposalAccount);
     }//GEN-LAST:event_btnNewAccountActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        String text = jtxtAddValue.getText();
+        float value= parseStringToFloat(text);
+        value = (float) Math.round(value * 100) / 100;
+        System.out.println("value: "+value);
+        if(value>=0.1){
+            JOptionPane.showMessageDialog(this, "Payment ok.");
+            int index=jAccountList.getSelectedIndex();
+            long idacc=list.get(index).getIdacc();
+            new ConnectionProvider().insertCash(idacc,value,idemp); 
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private float parseStringToFloat(String text){
+        if(text.length()>0){
+            try {
+                float value=Float.parseFloat(text);
+                return value;
+            }catch(NumberFormatException ex){
+                
+            }
+        }
+        return 0;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnNewAccount;
@@ -174,8 +208,8 @@ public class PanelAccounts extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField jtxtAddValue;
+    private javax.swing.JTextField jtxtSubValue;
     private javax.swing.JLabel lblBalance;
     // End of variables declaration//GEN-END:variables
 

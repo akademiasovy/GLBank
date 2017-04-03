@@ -376,4 +376,37 @@ public class ConnectionProvider {
             System.out.println("Error: "+ex.toString());
         }
     }
+
+    public void insertCash(long idacc, float value, int idemp) {
+        try {
+        Connection conn = getConnection();
+       
+            try {
+
+                conn.setAutoCommit(false);
+
+                updateAccount(idacc,value,conn);
+                writeLogTransaction(idacc, value, idemp,conn);
+                conn.commit();
+            }catch(SQLException ex){
+                conn.rollback();
+                System.out.println("Error: "+ex.toString());
+            }
+        }catch(SQLException ex){
+            System.out.println("Error: "+ex.toString());
+        }
+    
+    
+    }
+
+    private void updateAccount(long idacc, float value, Connection conn) throws SQLException{
+        String query="UPDATE accounts SET balance=balance+? WHERE idacc=?";
+        PreparedStatement ps = conn.prepareStatement(query);
+        ps.setFloat(1, value);
+        ps.setLong(2, idacc);
+        ps.executeUpdate();
+    }
+
+    private void writeLogTransaction(long idacc, float value, int idemp, Connection conn) {
+    }
 }
