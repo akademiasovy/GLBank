@@ -83,6 +83,11 @@ public class PanelAccounts extends javax.swing.JPanel {
 
         jButton2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jButton2.setText("sub -");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel4.setText("Cash transaction:");
@@ -157,8 +162,9 @@ public class PanelAccounts extends javax.swing.JPanel {
 
     private void jAccountListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jAccountListActionPerformed
         // TODO add your handling code here:
-        if(!list.isEmpty()){
-            int index=jAccountList.getSelectedIndex();
+        int index=jAccountList.getSelectedIndex();
+        if(!list.isEmpty() && index>0 ){
+            
             lblBalance.setText(""+list.get(index).getBalance());
         }
     }//GEN-LAST:event_jAccountListActionPerformed
@@ -172,6 +178,7 @@ public class PanelAccounts extends javax.swing.JPanel {
         }while(conn.existsAccount(proposalAccount));
            System.out.println("New account id: "+proposalAccount);
            conn.insertNewAccount(idc,proposalAccount);
+           initAccountList();
     }//GEN-LAST:event_btnNewAccountActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -179,14 +186,30 @@ public class PanelAccounts extends javax.swing.JPanel {
         String text = jtxtAddValue.getText();
         float value= parseStringToFloat(text);
         value = (float) Math.round(value * 100) / 100;
-        System.out.println("value: "+value);
+
         if(value>=0.1){
             JOptionPane.showMessageDialog(this, "Payment ok.");
             int index=jAccountList.getSelectedIndex();
             long idacc=list.get(index).getIdacc();
             new ConnectionProvider().insertCash(idacc,value,idemp); 
+            jtxtSubValue.setText("0");
         }
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        String text = jtxtSubValue.getText();
+        float value= parseStringToFloat(text);
+        value = (float) Math.round(value * 100) / 100;
+        int index=jAccountList.getSelectedIndex();
+        float currentAmount = list.get(index).getBalance();
+        if(value>=0.1 && currentAmount>=value){
+            JOptionPane.showMessageDialog(this, "Payment ok.");
+           
+            long idacc=list.get(index).getIdacc();
+            new ConnectionProvider().insertCash(idacc,(-1)*value,idemp); 
+            jtxtSubValue.setText("0");
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     private float parseStringToFloat(String text){
         if(text.length()>0){
@@ -215,11 +238,13 @@ public class PanelAccounts extends javax.swing.JPanel {
 
     private void initAccountList() {
         ConnectionProvider conn = new ConnectionProvider();
+        list=null;
         list=conn.getAccounts(idc);
         lblBalance.setText("");
         if(list.isEmpty())
             return;
         
+        jAccountList.removeAllItems();
         list.stream().forEach((account) -> {
             jAccountList.addItem(""+account.getIdacc()+" / 2701");
         });

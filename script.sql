@@ -102,7 +102,7 @@ INSERT INTO Accounts VALUES (9401953275,1,1.15);
 INSERT INTO Accounts VALUES (28161353,1,98555.33);		
 INSERT INTO Accounts VALUES (1111886952,2,3508.68);	
 
-CREATE TABLE banktransaction (idbt INT AUTO_INCREMENT,
+CREATE TABLE Banktransaction (idbt INT AUTO_INCREMENT,
 							amount FLOAT(10,2) NOT NULL,
 							transdatetime datetime NOT NULL,
 							description VARCHAR(140) DEFAULT NULL,
@@ -115,7 +115,7 @@ CREATE TABLE banktransaction (idbt INT AUTO_INCREMENT,
 							FOREIGN KEY (idemp) REFERENCES Employees(idemp)
 							);
 	
-CREATE TABLE cashtransaction (idct INT AUTO_INCREMENT,
+CREATE TABLE Cashtransaction (idct INT AUTO_INCREMENT,
 							idemp INT NOT NULL,
 							amount FLOAT(10,2) DEFAULT 0,
 							idacc BIGINT NOT NULL,
@@ -125,6 +125,27 @@ CREATE TABLE cashtransaction (idct INT AUTO_INCREMENT,
 							FOREIGN KEY (idacc) REFERENCES Accounts(idacc)
 							ON UPDATE RESTRICT
 							);
+							
+CREATE TABLE Cards (idcard INTEGER AUTO_INCREMENT,
+					cardnumber BIGINT UNIQUE NOT NULL,
+					idacc BIGINT NOT NULL,
+					blocked CHAR(1) DEFAULT 'F',
+					PRIMARY KEY (idcard),
+					FOREIGN KEY (idacc) REFERENCES Accounts(idacc)
+					ON DELETE CASCADE
+					ON UPDATE RESTRICT
+					);
+					
+CREATE TABLE Atmwithdrawals (idatmw INTEGER NOT NULL AUTO_INCREMENT,
+					amount FLOAT(10,2) NOT NULL,
+					idatm INTEGER DEFAULT 0,
+					atmdatetime DATETIME DEFAULT CURRENT_TIMESTAMP,
+					idcard INTEGER NOT NULL,
+					PRIMARY KEY (idatmw),
+					FOREIGN KEY (idcard) REFERENCES Cards(idcard)
+					ON DELETE CASCADE
+					ON UPDATE RESTRICT
+);
 							
 							
 							

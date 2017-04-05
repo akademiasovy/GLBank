@@ -407,6 +407,14 @@ public class ConnectionProvider {
         ps.executeUpdate();
     }
 
-    private void writeLogTransaction(long idacc, float value, int idemp, Connection conn) {
+    private void writeLogTransaction(long idacc, float value, int idemp, Connection conn) throws SQLException{
+        String query="INSERT INTO Cashtransaction (idemp, amount, idacc) "+
+                " VALUES( ?,?,?)";
+        PreparedStatement ps = conn.prepareStatement(query);
+        ps.setInt(1, idemp);
+        ps.setLong(3, idacc);
+        ps.setFloat(2, value);
+        ps.executeUpdate();
+        
     }
 }
